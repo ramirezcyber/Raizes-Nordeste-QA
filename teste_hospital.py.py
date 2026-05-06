@@ -1,0 +1,68 @@
+# Projeto Multidisciplinar: SGHSS – VidaPlus
+# Aluno: Ramirez Morais de Melo
+# RU: 4594148
+# Ênfase: Qualidade de Software
+
+
+
+import subprocess
+import sys
+import time
+
+# Função para verificar e instalar dependências automaticamente
+def verificar_dependencias():
+    try:
+        from selenium import webdriver
+        print("Biblioteca Selenium já está presente no sistema.")
+    except ImportError:
+        print("A biblioteca 'Selenium' não foi encontrada.")
+        escolha = input("Deseja que eu realize a instalação agora ? (s/n): ").lower()
+        if escolha == 's':
+            print("Iniciando instalação, por favor aguarde...")
+            subprocess.check_call([sys.executable, "-m", "pip", "install", "selenium"])
+            print("Instalação concluída com sucesso!")
+        else:
+            print("Operação cancelada. O script será encerrado.")
+            sys.exit()
+
+# Chama a verificação antes de iniciar os testes
+verificar_dependencias()
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+
+# Configuração do WebDriver (Exemplo usando Chrome)
+driver = webdriver.Chrome()
+
+def test_login_invalido():
+    try:
+        # 1. Acessa a URL (fictícia) do sistema VidaPlus
+        driver.get("http://localhost:8000/login") 
+        
+        # 2. Localiza os campos de entrada (IDs fictícios para o projeto)
+        campo_cpf = driver.find_element(By.ID, "cpf_paciente")
+        campo_senha = driver.find_element(By.ID, "senha")
+        botao_entrar = driver.find_element(By.ID, "btn_login")
+
+        # 3. Simula entrada de dados inválidos (Requisito de Segurança)
+        campo_cpf.send_keys("000.000.000-00")
+        campo_senha.send_keys("senha_errada_123")
+        botao_entrar.click()
+
+        # 4. Verifica se a mensagem de erro apareceu (Resultado Esperado)
+        time.sleep(2) # Aguarda o carregamento
+        mensagem_erro = driver.find_element(By.CLASS_NAME, "alert-danger").text
+        
+        if "inválido" in mensagem_erro.lower():
+            print("Teste CT002: PASSOU - Sistema barrou acesso indevido.")
+        else:
+            print("Teste CT002: FALHOU - Sistema não exibiu alerta de erro.")
+
+    except Exception as e:
+        print(f"Erro na execução do teste: {e}")
+    finally:
+        driver.quit()
+
+if __name__ == "__main__":
+    test_login_invalido()
