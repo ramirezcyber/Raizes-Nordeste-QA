@@ -7,10 +7,19 @@
 
 import subprocess
 import sys
-import time
+import platform
 
-# Função para verificar e instalar dependências automaticamente
-def verificar_dependencias():
+def verificar_ambiente():
+    # 1. Verifica a versão do Python
+    print(f"Sistema Operacional: {platform.system()} {platform.release()}")
+    if sys.version_info < (3, 7):
+        print("Erro: Este script requer Python 3.7 ou superior.")
+        print(f"Sua versão atual é: {sys.version}")
+        sys.exit(1)
+    else:
+        print(f"Versão do Python: {sys.version.split()[0]} - OK!")
+
+    # 2. Verifica e instala Selenium
     try:
         from selenium import webdriver
         print("Biblioteca Selenium já está presente no sistema.")
@@ -18,15 +27,17 @@ def verificar_dependencias():
         print("A biblioteca 'Selenium' não foi encontrada.")
         escolha = input("Deseja que eu realize a instalação agora ? (s/n): ").lower()
         if escolha == 's':
-            print("Iniciando instalação, por favor aguarde...")
+            print("Iniciando instalação via pip, por favor aguarde...")
             subprocess.check_call([sys.executable, "-m", "pip", "install", "selenium"])
             print("Instalação concluída com sucesso!")
         else:
-            print("Operação cancelada. O script será encerrado.")
-            sys.exit()
+            print("Operação cancelada. O script não pode prosseguir sem o Selenium.")
+            sys.exit(1)
 
-# Chama a verificação antes de iniciar os testes
-verificar_dependencias()
+# Executa a verificação de ambiente
+verificar_ambiente()
+
+# Início dos testes
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
