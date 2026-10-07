@@ -7,7 +7,7 @@ Aluno: Ramirez Morais de Melo
 
 RU: 4594148
 
-Polo: Curitiba - PR
+Polo: Brasília - DF
 
 Descrição do Projeto
 Este repositório contém o protótipo de automação de testes para o sistema de fidelização e atendimento da rede Raízes do Nordeste. O objetivo principal é validar requisitos de segurança e conformidade com a LGPD através de testes de interface.
