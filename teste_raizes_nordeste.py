@@ -17,7 +17,7 @@ def verificar_ambiente():
     else:
         print(f"Versão do Python: {sys.version.split()[0]} - OK!")
 
-    # Verifica e instala Selenium
+    # Verifica e instala o Selenium
     try:
         from selenium import webdriver
         print("Biblioteca Selenium já está presente no sistema.")
@@ -40,7 +40,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 
-# Configuração do WebDriver (Exemplo usando Chrome)
+# Configuração do WebDriver
 driver = webdriver.Chrome()
 
 def test_login_invalido_fidelidade():
